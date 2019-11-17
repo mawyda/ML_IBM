@@ -1,0 +1,279 @@
+Machine Learning with Python
+11.16.19
+-------------------------------------
+Q?: DO I need to download the course materials or do I have lifetime access?
+
+
+-------------------------------------
+############################
+Week One:
+What is Machine Learning
+############################
+
+Welcome:
+Learn how ML is used in key fields.
+Predict whethter a cell is benign or malignant
+Learn the value of decision trees.
+Bankers on loan decisions. Segmentation of data.
+Helps websites make recommendations.
+scikit learn to estimate co2 emissions.
+Predict customer churn.
+
+Can star tthe lab environment in the browser (through Jupyter notebooks).
+New Skills to be learned:
+Regression
+Classification
+Clustering
+Scikit Learn
+Scipy
+
+New Projects:
+Cancer Detection
+Predicting Economic Trends
+Predicting customer Churn
+Recommendation engines
+
+
+Introduction to Machine Learning:
+
+High level intro to ML.
+A cell has many characteristics that we can review.
+ML helps with predictions. Analysis of data by evaluating characteristics. Clean data, select proper algorithm, and train the model.
+Once trained iteratively (i.e. going through each record), it can be used to predict the new data. This is ML.
+
+Def Machine Learning:
+Is the subfield of computer science that gives computers the ability to learn without being explicitly programmed.
+
+Ex. Suppose we want create a program to recognize images of cats and dogs.
+The first thing to do is to break down the images into feature sets. For example, does the image show eyes, and what is the size. Legs, tails, etc are all attributes. Convert to a vector of features.
+ML helped change the difficulty of this. It allows us to look at all feature sets and the corresponding animals. It learns the pattern of each animal.
+It detects without being explicitly programmed to do so.
+
+Examples of ML:
+Netflix and Amazon. ML produces suggestions. Based on the knowledge and finding patterns within the data set.
+
+Machine Learning Techniques:
+Regression/ Estimation
+    - Predicting a continuous value.
+    - Ex. A house. The CO2 emissions
+Classification
+    - Predicting the item class/ category of a case.
+    - Ex. A cell is benign or malignant. Customer Churn
+Clustering
+    - Finding the structure of data; summarization
+    - Ex. Find similiarities or create segmentation
+Associations
+    - Associating frequent co-occurring items/ events
+    - Ex. Grocery items that are bought together.
+Anomaly detection:
+    - Discovering abnormal and unusual cases
+    - Ex. Credit card fraud detection
+Sequence mining:
+    - Predicting next events
+    - Ex. click-stream (Markov Model, HMM)
+Dimension Reduction:
+    - Reducing the size of data (PCA)
+    - Ex.
+Recommendation Systems
+    - Recommending items
+    - Ex. Associates ppls prefrence with others with similar tastes and recommends new items to them.
+
+
+Difference between aritificial intelligence, machine learning, and deep learning
+AI components: Tries to make computers intelligent by mimicing the coginitive functions of humans
+    - Computer Vision
+    - Language Processing
+    - Creativity
+Machine Learning: IS the branch of AI that covers the statistical part of artificial intelligence. It teaches the computer to solve problems y going through tons of data, learning from them, and then using that experience to make predictions and solve the problems with the new data.
+    - Classification
+    - Clustering
+    - Neural Networks
+Revolution in ML:
+    - Deep learning: A special field of ML. Where computers can actually learn and make intelligent decisions on their own. Deeper level of automation.
+
+Machine Learning Applications
+Machine Learning Algorithms
+
+----------------------------
+Python for Machine Learning:
+----------------------------
+
+Python Libraries for ML:
+NumPy: Math library to work with n-dimensional arrays.
+Computation is efficient, much better than vanilla python.
+
+SciPy: Collection of numerical algorithms. Good library for scientific computation.
+
+Matplotlib: Plotting package.
+
+These three pkgs are discussed in the Data Analysis with Python course. Recommended to take these first.
+
+pandas: A high level lib that provides high performance work.
+
+scikit learn: Collection of Algorithms and tools for ML.
+- Free ML lib for Python.
+- Has most of the Classification, Regression, and Clustering algorithms.
+- Works with NumPy and SciPy
+- Great documenation.
+- Easy to implement ML models.
+
+sci-kit learn functions:
+Will go over these throughout the course.
+ML algorithms benefit from standardization of datasets.
+sci-kit learn makes all of this very easy.
+training set and test sets.
+test set to run prediction (likely after trained).
+
+All of this would be difficult with just NumPy, especially further if it was pure Python.
+
+----------------------------------------
+Supervised versus Unsupervised Learning:
+----------------------------------------
+
+What is supervised learning?
+To observe or direct the ML model. Be able to produce classification regions.
+How do we do this?
+By teaching the model. We load the model with knowledge and then it can use this to predict future instances.
+
+Teaching the model with labeled data:
+Note that it is labelled data.
+The header row labels are called attributes. Columns are called features and they include the data.
+A row would have all the attributes and it is also known as an observation.
+Two kinds of data:
+    1. Numeric
+    2. Categorical: non-numeric; has characters like "beign"
+
+There are two types of Supervised Learning techniques:
+Classification and Regression
+
+1. Classification:
+Is the process of predicting discrete class labels or categories.
+2. Regression:
+Is the process of predicting a continuous value versus Categorical in classification. (Q?: So more numerical?)
+
+For example, if you have a dataset of engines with their attributes, you can use this to regressively calculate a new engines co2 levels, provided you are given some attributes that are similar to the dataset.
+
+What is unsupervised learning?
+We do not supervise the model and let it work on its own to discover information that may be hidden to us.
+It works on the dataset and draws conslusions based on the unlabelled data.
+Generally speaking, the algorithms are more difficult.
+
+Unsupervised techniques:
+    - Dimension reduction
+    - Density estimation
+    - Market Basket analysis
+    - Clustering
+
+Dimensionality reduction (and/ or feature selection):
+reduces redundant features to make classification easier.
+Market Basket Analysis:
+is a modelling technique based on the thery that if you buy one group of items you are more likely to buy from another group.
+Density Estimation:
+Simple concept used to explore the data to find some structure within it.
+Clustering: one of the most popular in UnSupervised Learning
+Is grouping of data points or objects that are somehow similar by: discovering structure, summarization, and anomaly detection.
+Many applications, like Bank segmenting customers, helping an individual organize music. The three above are the most common or general use of this technique.
+
+Supervised versus unsupervised learning:
+classification:
+labeled data
+
+regression:
+predicts trends using previous labeled data
+
+has more evaulation methods
+
+controlled env
+
+Unsupervised:
+clustering:
+Finds patterns and groupings from unlabelled data
+
+Has fewer evaluation methods than supervised learning
+
+Less controlled environment.
+
+----------
+Quiz:
+----------
+
+###################################
+Week Two: Linear Regression
+###################################
+Due Dec. 2
+Estimated time: 5 hrs.
+Sunday: 1hr+
+Monday:
+---------------------------
+Introduction to Regression:
+---------------------------
+
+What is regression?
+Given a dataset of cars, for example, can we predict the co2emissions of a car by looking at its engine size and number cylinders, given that these among other things are the attributes of each car in the DS.
+
+Regression is the process of predicting a continous value, and yes, we can try to predict the co2 emissions using other variables here.
+
+There are two types of variables in regression:
+    - Dependent variable: State/ target/ goal that we are trying to predict.
+    - One or more independent variables: also known as explanatory variables, can be seen as the causes of those states. So in the case of the co2, the engine size and cylinders would be the independent vars.
+
+By convention, independent vars are shown as X var, and the dependent Y. Y is related to a fucntion of X.
+The dependent variable must be continuous and cannot be a discrete value. The indpendent variables can be measured on either a continous or categorical scale.
+
+Q?: Why the difference?
+--snip-- Start taking better notes here >.....
+What is a regression model?
+
+Types of regression models:
+Simple Regression
+Multiple Regression
+
+Applications of Regression
+
+
+-------------------------
+Simple Linear Regression:
+-------------------------
+
+After we've found the parameters of the inear equation, making predictions is as simple as solving hte equation for a specific set of inputs.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Model Evaluation in Regression Models
+
+Evaluation Metrics in regression Models
+
+LAB
+
+Multiple Linear Regression
+
+LAB
+
+Non-Linear Regression
+
+Quiz
+
+
