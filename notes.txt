@@ -2,7 +2,7 @@ Machine Learning with Python
 11.16.19
 -------------------------------------
 Q?: DO I need to download the course materials or do I have lifetime access?
-
+Q?: Can you donwload the jupyter notebook files?
 
 -------------------------------------
 ############################
@@ -181,7 +181,7 @@ labeled data
 regression:
 predicts trends using previous labeled data
 
-has more evaulation methods
+has more evaluation methods
 
 controlled env
 
@@ -202,8 +202,6 @@ Week Two: Linear Regression
 ###################################
 Due Dec. 2
 Estimated time: 5 hrs.
-Sunday: 1hr+
-Monday:
 ---------------------------
 Introduction to Regression:
 ---------------------------
@@ -211,68 +209,448 @@ Introduction to Regression:
 What is regression?
 Given a dataset of cars, for example, can we predict the co2emissions of a car by looking at its engine size and number cylinders, given that these among other things are the attributes of each car in the DS.
 
-Regression is the process of predicting a continous value, and yes, we can try to predict the co2 emissions using other variables here.
+Regression is the process of predicting a continuous value, and yes, we can try to predict the co2 emissions using other variables here.
 
 There are two types of variables in regression:
     - Dependent variable: State/ target/ goal that we are trying to predict.
     - One or more independent variables: also known as explanatory variables, can be seen as the causes of those states. So in the case of the co2, the engine size and cylinders would be the independent vars.
 
-By convention, independent vars are shown as X var, and the dependent Y. Y is related to a fucntion of X.
-The dependent variable must be continuous and cannot be a discrete value. The indpendent variables can be measured on either a continous or categorical scale.
+By convention, independent vars are shown as X var, and the dependent Y. Y is related to a function of X. Y is to be solved.
+The dependent variable must be continuous and cannot be a discrete value. The independent variables can be measured on either a continuous or categorical scale.
 
 Q?: Why the difference?
---snip-- Start taking better notes here >.....
-What is a regression model?
+A!: Discrete referring to something that must exist in the set, whereas continues has an infinite number of possibilities.
 
-Types of regression models:
-Simple Regression
-Multiple Regression
+What is a regression model?
+Use the historical data, using one or more of it's features (column data), and from that data make a model.
+We use a regression to build the regression estimation model, which attempts to fit a line to the data.
+
+There are two types of regression models:
+Simple Regression : When one independent variable (X) is used to estimate one dependent variable (Y).
+    - Can be linear or not
+    - Simple Linear Regression
+    - Simple Non-linear Regression
+Multiple Regression: When more than one independent variable is used to determine/ estimate the dependent variable.
+    - Ex. Predicting co2 emissions with both engine size and number of cylinders.
+    - Multiple Linear Regression
+    - Multiple Non-linear Regression
 
 Applications of Regression
+We use regression when we want to estimate a continuous value.
+Sales forecasting: Predict total yearly sales using linear regression.
+Psychology: Individual satisfaction based on socio economic status
+Price estimate: for a house
+Employment income: based on age, gender, etc.
+Quiz: Rainfall
+
+Regression algorithms: There are many and each has specific application in which they are best suited.
+    - Ordinal regression
+    - Poisson regression
+    - Fast forest quantile regression
+    - Linear, Polynomial, Lasoo, Stepwise, Ridge regression
+    - Bayesian linear regression
+    - Neural network regression
+    - Decision forest regression
+    - Boosted decision tree regression
+    - KNN (K-nearest neighbors)
 
 
 -------------------------
 Simple Linear Regression:
 -------------------------
 
-After we've found the parameters of the inear equation, making predictions is as simple as solving hte equation for a specific set of inputs.
+We can predict the value of a dependent variable using a single independent variable. This is simple linear regression- by using 1 independent(X)  and 1 dependent variable (Y).
+The key point is that our dependent variable must be continous and non-discrete. However, the independent variables can either be on a continuous or categorical scale.
+# Note: It seems that the distinction is that the independent variable must be numeric and non-categorical. But does this mean we can never estimate the category of something? Linear regression is pretty simple, but in mathematical terms.
 
+There are two types of regression models/ topology:
+Simple Linear regression: When one independent variable is used to represent one dependent variable.
+Multiple Linear Regression: More than one independent variable used to determine the dependent variable.
 
+A scatter plot can easily show that changes in one variable explain or possibly cause (important distinction between cause explain) changes or the state of another variable. It can also show that the relationship between the two is linear.
+The whole point of this type of work is to fit a line between the data, if it is in fact linear.
 
+Linear regression model representation:
+We now talk about the "fitting line" actually means. We are going to find y based on x.
+Traditionally, this is shown as a polynomial (consisting of more than one term a la x & y):
+yhat = theta_zero + theta_one*x1
 
+In this, y hat is the dependent/ predicted variable and x1 is the independent variable.
+theta_zero and theta_one are the parameters of the line that we must adjust.
+theta_one is the slope and theta_zero is the intercept. These are also referred to as the coefficients of the linear equation.
 
+The question then becomes how do you draw a line between the points and also how do you determine what line fits best?
+Linear regression estimates the coefficients of the line, which means we must calculate these things.
 
+How to find the best fit?
+Assume that we have found the best fit line already. Let's go through all of the points and see how well they fit with the line.
+Basically, we should be able to take an x1 (engine size in these examples) and see that the predicted value is close to the actual value.
+Said another way, if we use our polynomial with known parameters, we hope that that this predicted value, y_hat, is close to the actual value y.
 
+Q?: Is y_hat used only for predictions? is there a distinction here in how we label our variables?
 
+Residual errors is the error between the estimated value and the true/ actual value.
+Error: The distance between the data point to the fitted regression line.
+# Note: Remember, the line is used to find the predicted value. The actual point should be as close to that as possible.
 
+The mean of residual errors shows how poorly the line fits with the whole dataset. This can be shown mathematically by mean square error (MSE):
+MSE = 1/n * summation(n, i=1) * (yi - yhat_i)**2
+# Explanation:
+the difference of actual and estimated, squared, then 'meaned'/ average. Q?: Why square the difference?
+Our objective is to find a line where the mean of all these errors is minimized.
+The whole goal is to optimize, and in this case it means to minimize the errors between the actual values and the predicted ones (one the line).
 
+# Q?: Is sigma notation essentially iteration?
+# A!: Sigma == Summation.
 
+The objective of linear regression is to minimize the MSE equation and to do that we must find the best parameters of theta0 and theta1, our coefficients.
+# Remember, these are the parameters that we are solving for and hold our assumptions.
+theta 0 == y intercept, or 'b'
+theta 1 == the slope, or 'm'
 
+How to find these to minimize error? Should we move the line a lot randomly and calculate MSE for each and find the minimum one? No.
+We can use a mathematical approach, or an optimization approach.
 
+Estimating the parameters (7'42"):
 
+Theta 1 (the slope) is used to calculate the second parameter, the y intercept.
+Theta_zero = ymean - theta_one * xmean
 
+You must calculate teh mean of the dependent and independent data points:
+theta_1 = sigma:s, i = 1: (xi - xbar)(yi - ybar) / (xi -xbar)**2
+# You can reduce the squared denominator expression.
 
+Theta_0 (ie y-intercept) can be calculated as:
+theta_0 = ybar - theta_1(xbar)
 
+Theta_0 (the y -intercept) is also knwon as the bias coefficient.
 
+Predictions with linear regression (10'41"):
+After we've found the parameters of the linear equation, making predictions is as simple as solving the equation for a specific set of inputs.
 
+Pros of Linear regression:
+Very fast. Basic and easy to understand
+No parameter tuning (versus k in k nearest neighbors)
 
-
-
-
-
-
-
+-------------------------------------
 Model Evaluation in Regression Models
+-------------------------------------
 
-Evaluation Metrics in regression Models
+The goal of regression is to build a model to accurately predict an unknown case. We have to perform regression evaluation after building the model.
 
-LAB
+Two Approaches:
+- Train and Test on teh Same Dataset
+- Train/ Test Split
 
-Multiple Linear Regression
+Best approach?
+How can we trust the model we've built? We can take the entire set of data and build the model. From there, we take an eve smaller sample of the test set and use the dependent values to predict the independent. From here we then compare our predicted values, yhats, with the actual values of data should already have.
+2'20"
+One of the simplest methods for calculating the error of our model:
+Error = 1/n Sigma(j=1, n) * abs(yj - yhat_j)
+stated thus: the average of the difference of all actual values and predicted values for all rows.
 
-LAB
+This approach (train and test) is the simplest. Again, it takes the entire set and build a model with it, then uses a subset of that same set to test with.
+This evaluation approach would typically have a high "training accuracy" but a low "out-of-sample" accuracy.
 
-Non-Linear Regression
+What is training accuracy and out of sample accuracy? 3'32"
+Training Accuracy:
+    - Is the percentage of correct predictions that the model makes when using the test data set
+    - High training accuracy isn't necessarily a good thing.
+    - Overfitting: Over trained to the data set. Non-generalized
+Out-of-Sample Accuracy:
+    - Percent accuracy of predictions the model has made on data outside of the training data. (Basically the numbers have been included/ accounted for in hte coefficients).
+    - Our approach above (train & test) will likely have high but potentially overfitted training accuracy, and low OoSample accuracy.
+
+It's important that the models have high OoS accuracy. How can we improve this?
+One way is to use train/ test split.
+
+4'51"
+Train/ Test split evaluation approach:
+A subset of the entire data set is used for the training model, and a separate subset is used for testing.
+These subsets are mutually exclusive.
+this will provide a more accurate OoS accuracy because the data used to test is outside of the model. This is also more realistic for real world problems.
+
+Todo: Verify the above statements. Actually see the difference in accuracy. Is it definitvely true that this is the case? It can't be, because your data sets determine what is true.
+
+# Note: Make sure to train the model with the testing dat afterwards, since you don't want to lose valuable data.
+
+The issue with train test split is that it's highly dependent on the datasets on which the data was trained/ tested.
+
+K-fold cross validation resolves most of the issues above.
+How to fix a high variation that results from a dependency? Average it.
+K-fold can be described this way. We break up the data into folds. Say by 25%.  For the first fold, we take the upper 25% and use it for test, adn the rest for training. This produces a prediction accuracy.
+Next, we take the percnt from 26-50% and use it for test, while the rest gets used for training, etc. We then get an avg of the accuracy percentages, and I then an average of coeeficients. It is test/train split on multiple levels.
+
+# Note: This evaluation method is outside the scope of this course, so additional research is needed.
+
+---------------------------------------
+Evaluation Metrics in Regression Models
+---------------------------------------
+
+Used to explain the performance of a model. We can compare the actual values and the predicted values to get the accuracy of a model.
+
+Exploring a few methods, such as:
+    - MAE: Mean absolute error
+    - MSE: Mean squared error
+    - RMSE: Root Mean Squared Error
+
+What is an error of the model?
+The measure of how far the data is from the fitted regression line. (I.e. the predicted, yhat, is the line).
+
+Since there are multiple data points, and error can be determined in multiple ways.
+
+MAE is the mean (average) of the difference of the errors. The easiest to understand.
+
+MSE is the square of the difference of errors, divided by the number of errors (to get mean). This is a more popular method since it is more geared towards larger errors. This is because the squared error exponentially increases on larger errors compared to that of smaller errors.
+
+RMSE : Is the square root of MSE. Very popular because in the same units as the response vector - the y values.
+#Q?: I take this to mean that because it's not astronomical and in the same sort or range as the y values.
+
+RAE: Relative absolute error, or residual sum of square. Uses the abs of the difference and sums.
+
+RSE: Relative squared error. Builds upon the RAE but also squares the errors, versus abs summation only. Widely adopted by the Data Science community for calculating R**2.
+
+R**2 is not error, necessarily, but it is a popular method for describing the accuracy of the model:
+        R**2 = 1 - RSE
+This represents how close the actual values are to the fitted regression line. The higher, the better.
+
+The choice of metric depends on a number of factors, such as the data type.
+
+------------------------------
+Lab: Simple Linear Regression:
+------------------------------
+-- Todo: Complete for the code examples as well.
+
+Using scikit-learn, we will get a test set of data, split on training and test, and finally use the model to predict an unknown.
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------
+Multiple Linear Regression:
+---------------------------
+
+There are two types of linear:
+Simple is when one independent variable is used to estimate a dependent variable.
+Multiple Linear Regression: Use multiple independent variables.
+    -For example, using cylinders and engine size to predict CO2 levels.
+
+Examples of multiple linear regression. There are two applications in general.
+Independent variables effectiveness on prediction:
+    - Ex. does revision time, gender, etc have any effect on student grades?
+
+Predicting impacts of change:
+    - Discovering how changs in the independent variables change the dependent variable
+
+As with Simple, Multiple Linear regression is the method of predicting a continuous variable.
+y is a target of multiple dependent x variables.
+This type is useful because you can predict which x values are a significant predictor of the outcome variable.
+Can find out how each variable impacts.
+
+yhat = theta_0 + theta_1*x_1 + ... + theta_n * x_1
+# If theta_0 is the y_intercept then its the slope of each multiplied by the x of each independent variable.
+
+4'
+Mathematically this can be shown as a vector form as well. This means it can be shown as a dot product of two vectors:
+the parameters vector and the feature set vector.
+y_hat = theta**T * X (# theta transposed x)
+
+theta ** T = [theta_0, theta_1, ...]
+# Theta is also referred to as the parameters.
+
+X is the feature set (the column data), represented as
+
+X = [1
+    x_1
+    x_2
+    ...
+    ]
+
+# Note the first element in the feature set X is 1 so it turns the theta_0 into the intercept.
+
+theta_transposed * X in a 1-dimensional space is a simple line.
+We call anything past the first dimension a hyper plane.
+We need to find optimized parameters.
+
+Using MSE to expose the errors in the model (5'47"):
+Optimizing parameters lead to a model with the fewest errors. Assuming we have already found the paremeter vecotrs- theta_transposed.
+We find y_hat using he feature set now.
+
+The residual error is the actual minus the expected.
+The mean of all residual errors shows how bad the model is representing the dataset. This is shown with MSE:
+
+MSE = 1/n * Sigma(i = 1, n) * (y_i - yhat_i)**2
+
+This is not the only way to expose the error of a Multiple Linear Regression Model, but it is one of the most popular ways to do so.
+We want to minimize the error or value of this equation. How do we do so?
+
+Estimating multiple Linear Regression Parameters (7'49")
+Q?: How to estimate theta?
+ - Ordinary Least Squares: Tries to estimate the coefficients by minimizing MSE. Use the data as a matrix and Linear Algebra.
+ Cons: Take a long time for matrix manipulations on large datasets.
+
+ - Optimization Approach: An algorithm to iteratively mimimize the MSE by looking at each and finding the best coefficients.
+ Gradient Descent is an option. Proper apporach if you have a large dataset.
+
+There are more and require additional research outside the scope of this class.
+
+(9'38")
+Making predictions with multiple linear regression:
+yhat = theta**T * X
+
+From here on out its just as simple as solving for yhat with the appropriate values.
+Multiple linear regression estimates the relative importance of predictors. This is shown by the slope, or the individual theta coefficients.
+So, if yhat = 125 + 6.6x + 12x...
+the 12x coefficeint, representing a column in the feature set, would have a higher impact on the value of yhat.
+
+Q&A - on multiple linear regression (11'25")
+Q?: How to determine when to use simple or multiple linear regression?
+Q?: How many independent variables should we use for the prediction? DOes adding any increase accuracy of the model?
+A!: Adding too many ind. vars without any theoretical justification can result in an over fit model.
+Over-fit models are a problem in that they are not general enough for accurate predictions. To this end, it is recommended not to use too many vars.
+Q?: Should independent variables be continuous?
+A!: You can convert categorical data to numerical if need be. Supposing you had vehicle transmission type. You can make manual = 0, automatic = 1.
+# Note: Check out the logic and the math on this. The act of converting a category to a number, and then using that number generate predictions and sole equations.
+
+Q?: What are the linear relationships between the dependent and independent variables?
+A!: Scatter plots can help show linearity. However, you may need to use a non-linear model to determine the best methods.
+
+
+-------------------------------
+Lab: Multiple Linear Regression
+-------------------------------
+Q?: How to find the y intercept in Multiple Linear regression?
+
+Q?: sklearn.linear_model.LinearRegression().fit(x, y) - Is the kw 'fit' used to create the model? OR set the training data?
+What does fit mean in this domain?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------
+Non-Linear Regression:
+----------------------
+
+Q?: Should we use Linear Regression?
+When data shows a curvy trend, linear regression is incorrect. There may be a strong relationship between the dep and
+independent vars, but just not a linear one.
+
+Different types of regression (2'15")
+Quadratic (Parabolic) regression
+Cubic Regression
+etc...
+
+These are polynomial regression because the dep and indped are modelled after the nth degree polynomial in x.
+
+What is polynomial regression (2'55")
+Some curvy data can be modeled by a polynomial regression.
+yhat = theta0 + theta1x + theta2x**2 + theta3x**3
+
+A polynomial regression model can still be expressed as and transformed into a linear regression model.
+For example, given the thrid degree polynomial above, we can convert/ express the x coeeficients such:
+x1 = x
+x2 = x**2
+x3 = x**3
+
+We can then substitute these values in the linear regression equation:
+yhat = theta0 + theta1x1 + theta2x2 + theta3x3 (# The numbered x's are subscripted).
+This model is now linear. This is now considered to be a special case of multiple linear regression.
+
+Q?: Do those values then become squared/ cubed?? or no? I do not think so.
+Also, you would have to know the correct line to fit in order to solve this. If in knowing that, would n't just be easier
+to solve without transforming to a multiple linear regression model?
+
+Polynomial regression models can fit linear regression using the model of Least Squares.
+Least Squares: Minimizing the sum of the squares of the difference between y and yhat.
+
+What is non-linear regression?
+1. To model non-linear relationship between the dependent variable and a set of independent variables.
+2. yhat must a be non-linear function of the parameters theta, no necessarily the features x
+# So if x shows the relationship with yhat to be linear, we cannot assume that it's linear??
+Q?: Mathematically, is linear versus non just a matter of the there being nothing to any power?
+A!: (Potential) The difference depends on changes to yhats theta values, not necessarily its x values.
+
+A model is non-linear by parameters.
+In contrast we cannot use the least squares method to fit the data in non-linear regression.
+In general, estimation of the parameters is not easy.
+
+Linear versus non-linear regression (6'13"):
+How to tell if a model is linear or non-linear?
+    - Inspect visually (Good idea to plot the data)
+    - Calculate the correlation coefficient between independent and dependent variables and, if for all vars this value is 0.7 or higher, then
+    there is a linear tendency.
+    - Based on accuracy
+
+How should I model my data if it displays non-linear on a scatter plot?
+    - Polynomial Regression
+    - Non-linear Regression Model
+    - Transform your data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Quiz
 
