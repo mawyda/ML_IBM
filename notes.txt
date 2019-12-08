@@ -155,7 +155,7 @@ For example, if you have a dataset of engines with their attributes, you can use
 
 What is unsupervised learning?
 We do not supervise the model and let it work on its own to discover information that may be hidden to us.
-It works on the dataset and draws conslusions based on the unlabelled data.
+It works on the dataset and draws conclusions based on the unlabelled data.
 Generally speaking, the algorithms are more difficult.
 
 Unsupervised techniques:
@@ -323,7 +323,7 @@ theta_1 = sigma:s, i = 1: (xi - xbar)(yi - ybar) / (xi -xbar)**2
 Theta_0 (ie y-intercept) can be calculated as:
 theta_0 = ybar - theta_1(xbar)
 
-Theta_0 (the y -intercept) is also knwon as the bias coefficient.
+Theta_0 (the y -intercept) is also known as the bias coefficient.
 
 Predictions with linear regression (10'41"):
 After we've found the parameters of the linear equation, making predictions is as simple as solving the equation for a specific set of inputs.
@@ -621,6 +621,468 @@ How should I model my data if it displays non-linear on a scatter plot?
     - Non-linear Regression Model
     - Transform your data
 
+--------------------------
+LAB: Polynomial Regression
+--------------------------
+
+Again, polynomial regression is where the relationship between the independent variable x and the dependent variable y
+is modeled as an nth degree polynomial in x. Ex:
+y = b + theta_1*x + theta_2 * x**2
+
+PolynomialFeatures() function in Scikit-learn library will generate a matrix consisting of all polynomial combinations of
+the features with degree less than or equal to the specified degree. If we select degree two, we will get three features
+from degrees 0, 1, and 2.
+
+from skleanr.preprocessing import PolynomialFeatures
+# Traditional split of train/ test and assigning to arrays...
+poly = PolynomialFeatures(degree=2)
+trainX = poly.fit_transform(train_x_array) # The training data array from dataframe.
+
+fit_transform() takes our x values and outputs a list from power 0 to power of 2. This matrix operation then replaces our
+raised power x's into a special case of multiple linear regression, which we can now solve. EX:
+b + theta_1*x + theta_2 * x**2 ---> b + (theta_1 * x_1_) + (theta_2 * x_2) + ...
+
+We can now import and use LinearRegression() to solve:
+clf = linear_model.LinearRegression()
+train_y = clf.fit(train_x_poly, train_y)
+# Get the coefficients to view
+clf.coef_
+clf.intercept_
+
+-- need to complete --
+
+
+----------------------------------
+LAB: Regular Non-linear Regression
+----------------------------------
+
+
+
+
+###################################
+Week Three: Classification
+###################################
+
+------------------------------
+Introduction to Classification
+------------------------------
+Q?: Is the union a set- so a + b - |a intersection b|? It is the two values minus any overlap?
+
+Classification is a supervised approach.
+Categorizes some unknown items into a discrete set of categories or "classes".
+The target attribute is a categorical value.
+
+Classification determines the class label for an unlaeled test case.
+
+For example, who will end up defaulting on a loan?
+
+Classification can be multi-class or binary.
+
+Quiz:
+What is a multi-class classifier?
+A classifier that can predict a field with multiple discrete values, such as "DrugA", "DrugX", "DrugY".
+# Note: It can predict multiple values, but discrete - ie they must be with the known set. We cannot predict a unknown value, or a new class value. In this example, we cannot predict a new drug that would be needed.
+
+Application: Classification use cases
+- Which category a customer belongs to
+- Whether a customer churns, ie. switches to another provider.
+- Whether or not a customer responds to a particular advertising campaign.
+
+- Can use this for spam filters as well.
+- Photo recognition. Speech recognition, etc.
+
+Many problems can be expressed as the association between features and target variables.
+
+Classification algorithms in machine learning:
+- Decision Trees (ID3, C4.5, C5.0)
+- Naive Bayes
+- Linear Discriminant Analysis
+- k-Nearest Neighbor
+- Logistic Regression
+- Neural Networks
+- Support Vector Machines (SVM)
+
+-------------------
+K-Nearest Neighbors
+-------------------
+
+If demographic data can be used to predict group membership, the company can use this to predict and send appropriate advertising/ offers.
+Our objective is to build a classifier.
+
+Determining the class using the KNN:
+Can we predict the class of an unknown by looking at it nearest neighbor? We, we can. But how accurate is our prediction? We could be wrong, and maybe it makes sense to do a majority vote over the K nearest neighbors.
+
+What is K-Nearest Neighbor (KNN)? (3'11")
+Is a classification algorithm that takes a number (K) of labeled points and uses it label (ie. make predictions) on other nearby points.
+
+- A method for classifying cases based on their similarity to other cases.
+- Cases that are near each other are said to be "neighbors"
+- Based on similar cases with same class labels being near each other.
+The measure of the distance between two cases is the measure of their dissimilarity.
+
+there are different ways to calculate similarity/ dissimilarity. One is Euclidean distance.
+
+The K-Nearest Neighbors algorithm (4'06")
+1. Pick a K value
+2. Calculate the distance of unknown cases from all cases.
+3. Select the K-observations in the training data that are "nearest" to the unknown data point.
+4. Predict the response of the unknown data point using hte most popular response value from the K-nearest neighbors.
+
+How to choose a good K? Ad how to do Number 2?
+
+Dis(x1, x2) = sqrt(Sigma(i=0, n)(x1_i - x2_i)**2
+
+# Difference squared summed (of each feature) and then square root of sum.
+TODO: Euclidean distance.
+# So the i is representative of the different columns in the feature set. If we have age and income, i1 could be age, i2 income, and so on.
+sqrt(age1 - age2)**2 + (income1 - income2)**2)
+
+TODO: We have to normalize the data to get the accurate dissimilarity measure.
+Q?: What is normalizing and what does it entail?
+
+What is the best value for KNN (6'16")
+Overfitting is bad. Choosing a really high K value though can cause us to become over-generalized.
+
+The general solution is to reserve a part of the data for testing the accuracy of your solution. Basically, we iteratively go through the test values, choosing a new K each time. We then capture the accuracy of each of these and then select the "correct" K from that value.
+
+Computing continuous targets using KNN (8'28")
+
+Can be used for regression. The average or median values of surrounding values are used to predict the new value.
+
+
+------------------------------------
+Evaluation Metrics In Classification
+------------------------------------
+Jaccard index
+F1 score
+Log loss
+
+Jaccard index (also known as the Jaccard similarity coeficient).
+This is the size of the intersection divded by the size of the union of two labeled sets:
+J(y, yhat) = |y intr yhat| / |y Une yhat|
+==
+   |y intersection yhat|
+----------------------------
+|y| + |yhat| - |y intr yhat|
+
+
+The higher the number, the better the accuracy.
+
+F1-score (2'04")
+Each row shows the actual labels in the test set. Columns show the predicted labels by classifier.
+In our example, the top row shows category = 1, meaning hte customer will churn. In column A is what was correctly predicted as 1, and B was  predicted as zero.
+The value of the first cell A1 is 6, meaning 6 were correctly predicted as class = 1. However, 9 were predicted as zero (column B), and the should have been 1 (row 1).
+Thus, this leads to tvf, positives and negatives. I.e. True Negative means that it is true that something won't happen.
+
+Precision is the measure of accuracy:
+P = TP / (TP + FP)
+Recall is the true positive rate:
+Recall = TP / (TP + FN)
+
+Q?: Not sure I understand the precision for the Churn = 0. The attributes FP, TN , etc have to change relative to each classifier.
+A!: It comes down to understanding TP, TN, FN, FP.
+So in the case of churn = 0, it means that precision is that which was correctly predicted (TP = 24), divided by that plus that which was falsely predicted to be churn = 0 (FP = 9, from B1).
+
+F1-score is the harmonic average of the precision recall. This is a good way to show that a classifier has a good value for both recall and precision.
+F1 = 2 * (prc X rec) / (prc + rec)
+Q?: Is it really 2x? A!: Yes
+
+You can then take the average of both.
+
+Log Loss (5'55")
+Sometimes the output of a classifier is the probability of class label instead of the label itself. This may ask what % this thing is class Y.
+
+Logarithmic loss measures the accuracy of this kind of model. So if the the value is the class, but the model predicted a low probablity of this (close to a False Negative), then we would say Log Loss is high, which would be bad.
+
+We can calculate the log loss for each row using hte log loss equation:
+(y * log(yhat) + (1 - y) * log(1 - yhat))
+
+Then taking that, we calculate the average log loss across all rows within the test set:
+LogLoss = -1/n Sigma(y * log(yhat) + (1 - y) * log(1 - yhat))
+
+
+--------------
+Intro to Decision Trees
+--------------
+Q?: What is a decision tree?
+A!: The basic intuition behind a decision tree is to map out all possible decision paths in the form of a tree.
+
+How to build a decision tree?
+Q? When to know when to apply these things?
+
+Building a decision tree with the training set (1'42")
+Decision trees are built by splitting the training set into distinct nodes. Where one node contains all of or most of one category of the data.
+
+Decision trees are about testing an attribute and branching the cases based on the results of the test. We seek to find the attribute with the highest explanation, or the one that starts to sort our data by the highest amount of distinction.
+Each internal node corresponds to a test, and each branch corresponds to a result of the test. And each leaf node assigns the thing in question to a class.
+For example, Sex/ Gender would be a node, and the split to Male or Female would be the result of that test, and in our drug example, the correct drug for the patient would correspond to the leaf node.
+
+Decision tree learning algorithm (3')
+A decision can be constructed by considering the attributes, 1x1.
+1. Choose an attribute from your dataset.
+2. Calculate the significance of the attribute in splitting of data. This is to see if it's effective.
+3. Split the data based on the value of the best attribute.
+4. Go back to Step 1 for each branch and repeat for the rest of the attributes.
+
+
+-----------------------
+Building Decision Trees
+-----------------------
+
+How do you build a decision tree?
+DT's are built using recursive partitioning to classify the data. The algorithm uses the most predictive data to split the data on.
+Which attribute is more predictive?
+We take the attribute from the features, and use it to categorize and split the dependent variables based on that.
+Ex. If we are looking for Drug A or B, we check to see if breaking things on Cholesterol helps to distinguish between or or the other drug.  So if the patient has high cholesterol, can we say whether its Drug A or Drug B that primarily is used by that feature?
+Q?: What constitutes sufficient evidence for splitting the data on an attribute? Is there a percentage we require?
+
+We say something is more predictive that other other features if it helps separate things better. In fact, more predictiventess = Less impurity + Lower Entropy (less chaos).
+OR, the impurity of patients in this example refers to having one set or close to one in each of the leaves.
+
+The choice of attribute to split data is very important and it is all about purity of the leaves after the split.
+Impurity of nodes is calculated by entropy of the data in hte node.
+Minimizing impurity at each step.
+
+Entropy (3'50")
+Is the amount of information disorder. Measure of randomness or uncertainty. The lower the Entropy, the less unfirom the distribution, the purer the node.
+If the nodes are completely homogeneous, then the entropy = 0. If equally split, then entropy = 1.
+
+You can calculate entropy like:
+Entropy = -p(A)log(p(A)) - p(B)log(p(B))
+Where p is the proportion of the attribute.
+Example, if A= 5 and B = 9, the equation is:
+-(9/14)log(9/14) - (5/14)log(5/14) # order not mattering due to all have a minus sign in front.
+# The libs will take this.
+
+So for example, we calculate the entropy of Cholesterol as a splitter. Our two options are Normal and High, and we are looking to predict for Drug A or B.
+We then check the entropy for both Normal and high.
+We should go through all the attributes and calculate the entropy after the split and then choose the best attribute.
+
+Trying another field (6'32")
+Which attribute is the best, or stated another way, which field provides the most "pure" nodes for our dependent predictor variable?
+Q?: We split on binary options here, Drug A and B. When more possible choices, exist, do we take hte average of the entropies for each branch, or do we simply take the absolute value of the lowest number to determine the correct choice?
+A!: See below. It looks like it is the weighted sum.
+
+In each tree do we have less entropy?
+
+We determine the best by finding the tree with the higher Information Gain after splitting.
+
+What is information gain? (8')
+Information gain is the information that can increase the level of certainty after splitting.
+Information Gain = Entropy before split - (weighted entropy after split)
+
+As randomness decreases, the amount of certainity increases, and vice versa.
+
+Example: If we have a total of 14 dependents, split on Drug A and B. The weight would be the number of those dep's that were split into the subsequent branch.
+So if 7 (A +B) were split into this branch, we weight that with 7/14, then * the entropy value.
+
+The higher the information gain is the correct answer.
+ info_gain = entropy before - [(weight* branch entropy) - (weight * other_branch entropy)] # in our binary example.
+
+You now go through the remaining features to calculate to information gain for each.
+
+
+----------------------------
+Intro to Logistic Regression
+----------------------------
+
+What is it?
+What kidn of problems an be solved by logistic regression?
+In what situation do we use it?
+
+Logistic regression is a classification algorithm for categorical variables.
+Using to predict based on historical data.
+For example, predicting customer churn.
+We can use one r more independent variables to predict.
+Logistical regression is analgous to linear regression, but in this case it tries to predict a categorical/ discrete value instead of a numerical one.
+# Linear regression seeks to predict a continuous value such as the price of a house for sale.
+Logistic regression dependent prediction variable is binary: Anything that we can set to zero or 1. Yes, or no, etc.
+# Actually, npot strictly true. You can make multi-class. We deal with binary in this class.
+
+In logistic regression, the independent variables must be continuous. If any are categorical, they must be "dummied" to contain numeric values.
+
+TODO: Answer the difference between the continuous or not with the other classifeir methods.
+I.e. Do we need to dummy data into numerics when dealing with decision trees or KNN?
+
+Logistic Regression Applications (2'50")
+
+Predict the possibility of a person having a heart attack.
+Predicting mortality, diseases, etc.
+Purchasing a product or halting a subscription.
+Predicting the probability of failure of a given process or product.
+Likelihood of defaulting on a mortgage.
+
+Notice that not only do we predict the class of each case, but the specific probability of that case belonging to said class.
+
+When is logistic regression suitable? (4'15")
+Four situations in which this method is a good candidate:
+
+1. If your data is categorical/ binary:
+2. If you need the portability of your prediction.
+3. When the data is linear separable. A line is drawn, and the data is divided by it's position to the line.
+4. If you need to understand the impact of a feature (i.e. the coefficients). A Theta_1 closer to zero is not very impactful, for example.
+
+Building a model for customer churn (6'45")
+
+X is our data set, in the space of real numbers M xN (em by en), when M is the number of features (colmuns) and N the number of records (rows) in the dataset.
+y = {0,1} # What we wan tot predict.
+
+y_hat = P(y=1|x) can predict if y is 1 given its features x.
+ALso put, that the probabilty of the class being zero is 1 minus the probability of the class being 1:
+P(y=0|x) = 1 - P(y=1|x)
+
+
+--------------------------------------------
+Logistic Regression versus Linear Regression
+--------------------------------------------
+Will look at linear and see why it's not always appropriate for bianry calculations.
+Will also look at the sigmoid function.
+Again, the goal of logistic regression is to predict the class of each state, and also the probability of each sample belonging to the class.
+Linear regression works well to predict a continuous field, ie. numerical.
+How about a categorical value? We can map our categories to 0 and 1. We can represent with a scatter plot. However, our y is either 0 or 1.
+We can then define a threshold for our values at 0.5. This is the line that breaks up data. This rule then determine that if <.5, class = 0.
+
+The problem is that we have no idea that the probability is correct. What is the prob. that our state really is class 0?
+
+The problem with using linear regression (6'50"):
+Linear regression always returns a number. This requires a to create a threshold. Regardless of how big or small the input ends up being (both positive or negative), the result is always ever zero or one.
+We would like a smoother line to predict between 1 and 0. We need the probability of falling into our class as well.
+
+Instead of using a function of Theta transposed X, we can use a a sigmoid function of that. This gives us the probability of a point belonging to a class.
+
+Our equation is now:
+yhat = sigmoid(Theta**Transposed X), where the RHS is actually the probability of y =1, given x, or P(y=1|x).
+# Verify the substitution above.
+
+Sigmoid function in logistic regression (9'20")
+(Explanation in detail)
+AKA Logistic function
+
+= 1 / (1 + e ** - theta_transposed X)
+
+This equation is always between zero and 1.
+
+What is the output of the model when using hte sigmoid function?
+
+For example, P(Churn = 1|income, age) = 0.8, where the probability of churn being 1 is based on income and age, and the value n the RHS is that probability.
+Conversely, P(Churn = 0|age, income) = 1- 0.8 = 0.2
+
+Now our job is train the model to make good predictions here. It should be a good estimate of determining the class.
+
+The training process (12'20")
+We can find theta through the training process.
+# Needed for ꝺ(O**T X), where ꝺ is sigmoid.
+
+1. Initialize theta with random values, as with most ML algorithms.
+2. Calculate the model output for a customer, which is the same as
+yhat = ꝺ(theta**T X)
+X is the feature vector values. Theta is the confidence (or weight) that you've set in the previous step.
+The output odf this equation is the prediction value- ie. the probability that the customer belongs to this class, that the state is this class.
+3. Compare the output of yhat with the actual value, y, and record it as error:
+error = 1 - yhat, where 1 is the actual value.
+This is the error for only state in all of the training set. Thus:
+4. Calculate the error for all customers. The total error is known as the models cost, and the total is calculated by the cost function. This is for hte entire model, comparing predicted and actual values.
+The lower the cost, the better the model is at estimating.
+5. Theta values were chosen randomly at first. Thus, change the theta to reduce the cost.
+# TODO: Undersatnd the theta calcualtion here.
+6. Go back to step 2, and start another iteration.
+Keep doing this until the cost is low enough.
+
+Two questions now arise:
+How can we change theta to reduce cost? and When would we stop the iterations to reduce this value?
+One of the most popular ways to change theta is gradient descent.
+
+------------------------------
+Logistic Regression - Training
+------------------------------
+
+General cost function
+The main objective of training and logistic regression is to change the parameters of the model, so as to be the best estimation of the labels of the samples in the dataset.
+How then?
+We need to look at the cost function and formulate this first. We take the derivative from here.
+
+Cost function:
+Cost(yhat, y) = 1/2 * (sigmoid(thetaT X) - y)**2
+
+The mean squared error is used here.
+J(0) = i/m Sigma(i-1, m)::Cost(yhat, y)
+
+The minus log function can help us to calculate our cost. If 1 is desirable, then -log(yhat). Or if we want zero, -log(1-yhat).
+
+This model penalizes cases that are not class 1.
+J(0) = -1/m Sigma(i-1, m):: (y**i)log(yhat**i) + (1 - y**i)log(1-yhat**i)
+
+Minimizing the cost function of the model (5'45")
+How do we find the best parameters?
+    - Minimize the cost function
+How do we minimize the cost function?
+    - Use an optimization approach. There are many, but we use a very popular one in the form of gradient descent.
+What is Gradient Descent?
+    - An iterative approach to finding the minimum of a function. A technique to use the derivative of a cost function
+    to change the parameter values, in order to minimize the cost
+
+Using gradient descent to minimize the cost? (6'55")
+--snip--
+
+Training algorithm recap
+1. initialize the parameters randomly.
+2. Feed the cost fucntion with training set and calculate the cost.
+3. Calculate the gradient of the cost function
+4. Update weights with new values
+5. Go back to step 2 and feed the cost function again with the new parameters. Here, we expect less error. We expect a short value of cost as we go down each step in the curve.
+
+6. Predict the new customer X, finally
+
+
+----------------------
+Support Vector Machine
+----------------------
+
+SVM is a supervised algorithm that classifies cases by finding a separator.
+First works by mapping data to a high-dimensional feature space.
+Then a separator is estimated.
+The data cannot be separated by a line in this case. It is more of a curve to capture and separate.
+Transferring to a higher dimensional space can start to show a boundary, and this can be defined by a hyper-plane.
+
+Data transformation (3'10")
+Supposing we had something that was one dimensional. This is not linearly separable. However, we can map the these values and transform by say squaring it, turning the plot into a curved parabola. Now we can divide with a line.
+
+Mapping data into a higher-dimensional space is called kernelling.
+The mathematical function used to do this is called the kernell function and can be of multiple different types, such as:
+linear
+polynomial
+RBF: radial basis function
+Sigmoid
+# Most of these are already implemented for us in the code libraries.
+
+We often times try various methods to see which fit the best.
+
+Using SVM to find the hyperplane (4'45")
+
+These are based on finding a hpyperplane that best divides a dataset into two classes.
+One thing is to look for line that best describes the largest separation, or margin from the classes.
+Support vectors are those close to the line.
+Hyper-planes and decision lines require their own equations.
+
+Optimization can also be described by gradient descent.
+
+Advantages:
+    - accurate in high-dimensional spaces
+    - Memory efficient due to using the support vectors.
+
+Disadvantages:
+    - Prone to over-fitting
+    - No probability estimation. This is generally desirable in most Classification models.
+    - Not efficient if dataset is very big.
+
+SVM applications (7'50")
+In which situations should we use?
+    - Image recognition/ analysis tasks such as handwriting or image classification
+    - Text category assignment
+    - Detecting Spam
+    - Sentiment Analysis
+    - Gene Expression CLamination
+    - Regression, outlier detection adn clustering
 
 
 
@@ -630,28 +1092,5 @@ How should I model my data if it displays non-linear on a scatter plot?
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Quiz
 
 

@@ -1,0 +1,102 @@
+# To add code as it becomes available. The purpose is to capture the syntax and methods and move on.
+
+Classification with K nearest neighbors:
+
+# imports go here.
+
+df = pd.read_csv('teleCust1000t.csv')
+df.head()
+
+df['custcat'].value_counts()
+
+df.hist(column='income', bins=50)
+
+df.columns # SHows the headers
+
+To use scikit-learn library, we have to convert the Pandas data frame to a Numpy array:
+
+# Wxplain this better:
+Data Standardization give data zero mean and unit variance, it is good practice, especially for algorithms such as KNN which is based on distance of cases:
+
+# Train/ Test split
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split( X, y, test_size=0.2, random_state=4) # What is the last kwarg?
+print ('Train set:', X_train.shape,  y_train.shape)
+print ('Test set:', X_test.shape,  y_test.shape)
+
+
+from sklearn.neighbors import KNeighborsClassifier
+# Start with =4 for now
+>>>
+k = 4
+#Train Model and Predict
+neigh = KNeighborsClassifier(n_neighbors = k).fit(X_train,y_train)
+neigh
+>>>
+# Now predict:
+yhat = neigh.predict(X_test)
+yhat[0:5]
+
+# Create a parser for code to pull out all methods (some object then .something(nnn)) to get explanations. Would be a good test for regexes.
+
+
+In multilabel classification, accuracy classification score is a function that computes subset accuracy. This function is equal to the jaccard_similarity_score function. Essentially, it calculates how closely the actual labels and predicted labels are matched in the test set.
+
+from sklearn import metrics
+# Evaluating both the training and test sets.
+print("Train set Accuracy: ", metrics.accuracy_score(y_train, neigh.predict(X_train))) # y_train is the actual here?
+print("Test set Accuracy: ", metrics.accuracy_score(y_test, yhat)) # yhat = neigh.predict(X_test)
+yhat[0:5]
+
+### For choosing the correct K.
+Ks = 10 # Will be for ks 1 thru 9.
+# mean_acc = np.zeros((Ks-1))  ## Why does this need to be a np array?
+mean_acc = []
+std_acc = np.zeros((Ks-1))
+ConfustionMx = [];
+for n in range(1,Ks):
+
+    #Train Model and Predict
+    neigh = KNeighborsClassifier(n_neighbors = n).fit(X_train,y_train)
+    yhat=neigh.predict(X_test)
+    # mean_acc[n-1] = metrics.accuracy_score(y_test, yhat)
+    mean_acc.append(metrics.accuracy_score(y_test, yhat)) # This works as well. Maybe there's more
+    # idiomatic ways of doing things within numpy.
+
+
+    std_acc[n-1]=np.std(yhat==y_test)/np.sqrt(yhat.shape[0]) # This deosn't get printed below.
+    # But it does get used in the cell below for the plot.
+
+mean_acc
+
+>>>
+np.std() == standard deviation.
+np.zeros(n) : an array of length n, with every element populated by 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
