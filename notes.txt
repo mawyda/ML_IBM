@@ -1088,9 +1088,186 @@ In which situations should we use?
 
 
 
+############################
+Week Four:
+Clustering
+############################
+
+K-Means Clustering
+---------------------------
+Intro to K-Means Clustering
+---------------------------
+
+Customer segmentation is the act of partitioning a dataset into groups of customers with similar attributes. Allows companies to allocate resources to a particular group of customers for marketing, for example.
+We use the data to identify hwo customers or things are similar to each other.
+
+Clustering is a very popular method to do that described above, but it is an UNsupervised method. These are partitioned to mutually exclusive groups.
+
+What is clustering?
+Means finding clusters in a dataset, unsupervised.
+It is a group of objects that are similar to other objects in the cluster, and dissimilar toi data points in other clusters.
+
+What is different between clustering and classification (besides supervised and  unsupervised).
+1. We use predefined labels for the yhats- the dependent variables. Each data instance belongs  to a particualr class.
+2. Unsupervised and unlabelled. We start to see that classes might exist.
+
+Clustering applications:
+- Retail/ Marketing: identify buying pattrerns for particular groups. Or recommending
+- Banking: cluseters of normal trends versus fraud.
+- Insurance: fraud detection.
+- publication: auto-categorize, or tag news items (that are similar) #Todo check this out for news aggregation.
+- medicine: characterize patient behavior/ therapies
+- biology: groups genes with similar patterns
+
+Why clustering?
+- Exploraoty dataa analysis
+- Summary generation: reducing the scale
+- outlier detection: especially for fraud detection or noise removal
+- Finding duplicates:
+- Pre-processing step:
+
+Clustering Algorithms:
+Partitioned-based clustering:
+    - Produces sphere like clusters.
+    - Relatively efficient
+    - k-Means, k-Median, Fuzzy c-Means
+Hierarchical Clustering:
+    - Produce trees of clusters
+    - Agglomerative, Divisive
+Density-based Clustering:
+    - Produce arbitrary-shaped clusters. good for noise detection.
+    - DBSCAN
+
+
+------------------
+k-Means Clustering
+------------------
+What is it?
+A type of partitioning clustering. K-Means divides the data into non-overlapping subsets (clusters) without any cluster-internal structure
+I.e. unsupervised.
+Examples within a cluster are very similar
+Examples across different clusters are very different
+
+Determine the similarity or Dissimilarity:
+The distances of samples from each other is used to determine the clusters.
+Q?: At what point does a range flip to "dissimilar"?
+K-means tries to minimize the Intra-cluster distances while maximizing the Inter-cluster differences. All of this of course in order to create separation.
+
+K-means also attempts to divide the data into non-overlapping clusters without any cluster-internal structure.
+
+We can use a Menkowski distance to calculate the distance between some data. This has been seen before in previous sections:
+Dis(x1, x2) = sqrt[Sigma(i=0, n)(x1_i - x2_i)**2]
+Also known as Euclidean distance. You can add dimensions by simply adding them, in the form of (x1_i - x2_i)**2.
+
+How does k-means Clustering work? (3' 49")
+We have to determine the value of k, which is a difficult problem.
+The key concept is that K means picks a center point for each cluster, randomly.
+These center points are known as centroids of the clusters.
+They should be the same feature size as our feature set (Q?: What does this mean?)
+Q?: Are the centroids actual points in the dataset, or something we are randomly generating from outside but nearby the set?
+A!: See below
+
+There are two approached to choose these:
+1. randomly choose the points from the data set and use these as the initial means.
+2. Create random points on the plot, not related to the actual data points.
+
+k-Means clustering - calculate the distance (5'30")
+After the initialization step, which was defining the centroids of each cluster, we need to assign each data point to the closest center.
+This requires calculating the distance for each point from each centroid.
+This requires us to create a distance matrix showing all points related to each centroid (as column).
+
+The main objective, as stated above, is to minimize the distance of each data point from its centroid (intra), and to maximize the distance
+from the other cluster centroids (inter).
+
+In the first example on the video, our model is poor and will result in a lot of error. That is, the points chosen for k were not good, and this is
+because they were chosen randomly.
+Here, error is the total distance of each point from its centroid, SSE or Sum of Squared differences:
+
+SSE = Sigma(i=1, n)::(xi - Cj)**2 # THis doenst seem right. where is the j subscript coming from?
+
+So, how can we turn this into better clusters with less error?
+In this next step we will update each data point to be the mean for data points in its cluster.
+So we move the centroids. However, each time we do this we need to recalculate the distance of each point to that centroid.
+
+k-Means is an iterative algorithm. This means we have to repeat steps until the algorithm converges.
+This results in clusters with the least amount of error, i.e. the most dense clusters available.
+However, it may converge to a local optimum, not necessarily the global optimum.
+So, it is highly contingent on the centroids we choose in the first place. The initial clusters really set the stage.
+
+Q?: So how do we determine the best cluster? There must be a mathematical way to do so.
+
+The usual process to solve this problem is to run the whole process multiple times until an acceptable solution is found.
+
+
+----------------
+More on k-Means
+----------------
+A look at accuracy and Characteristics
+
+1. Randomly placing k centroids, one for each cluster. The farther apart the clusters are placed, the better.
+2. Calculate the distance of each point from each centroid. Euclidean distance is the most popular.
+3. Assign each data point (object) to its closest centroid, creating a cluster.
+4. Recalculate the position of k centroids. The new centroid position is created by calculating the mean of all points in the group.
+5. Repeat steps 2-4, until the centroids no longer move.
+
+How can evaluate the "goodness" of the clusters formed through k-Means.
+k-Means accuracy (1'10")
+External approach:
+    - Compare the clusters with the ground truth, if available. This is difficult with the model being unsupervised.
+Internal Approach:
+    - Average the distance between data points within a cluster.
+
+Choosing a good "k" is difficult because it is highly dependent on the shape and scale of the distribution of points within the data set.
+There are several ways to do this, but one the most popular is the iterative approach, where we go through several values for k and choose the best one
+based on accuracy (the closeness of points to the centroid). Mean diff.
+
+The problem with increasing clusters is that the distance of data points from centroids will always reduce. This means that decreasing k
+will always decrease the error.
+
+The elbow point is what gets used. This is where the rate of decrease sharply shifts.
+So if trending downward at a steepish slow and then things abruptly start to level out- we choose the k at that point.
+This is called the elbow method.
+
+k-Means recap
+Med and Large sized databases (relatively efficient)
+Produces sphere-like clusters
+Needs number of clusters(k) # May be considered a drawback.
+
+
+-----------------------
+Hierarchical Clustering
+-----------------------
+Hierarchical clustering algorithms build a hierarchy of clusters where each node is a cluster consists of its daughter nodes.
+
+There are typically two strategies to creating this:
+1. Divisive
+Basically top-down.
+Start with all observationbs and then break down into smaller pieces.
+2. Agglomerative
+Bottom-up.
+Each observation starts in it's own cluster, and clusters are grouped together as we go up the chain.
+More popular among Data Scientists.
+
+Rows and columns are merged as clusters are merged. We find the smallest distance, and then create a cluster from these.
+From here there are a number of distance methods to use, but we can use Euclidean and move the point of the the merged clusters to the center of that merged cluster. We then use the center (which acts a mean, really) to calculate our next cluster.
+We complete this until all clusters have been merged and the tree is completed.
+
+Hierarchical clustering is typically shown as a dendrogram.
+Each merge is shown by a horizontal line. The y cooridinate of this horizontal represents the similarity of these two merged clusters to each other.
+We do not need to specify the number of clusters, but at some point we may need to partition disjoint clusters. This means the hierarchy needs to be cut at some point:
+Ex. Although we join up all clusters in the end, some clusters are actually very far apart and we may like to keeo only things that are relatively similar
+considered as a grouping. I.e. we may still want to see the differences between some merged groups.
+
+# Check for more content here.
 
 
 
 
 
+
+
+
+-------------------------------
+More on Hierarchical Clustering
+-------------------------------
 
