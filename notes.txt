@@ -1,5 +1,10 @@
 Machine Learning with Python
 11.16.19
+
+
+home URL:
+https://www.coursera.org/learn/machine-learning-with-python/home/welcome
+
 -------------------------------------
 Q?: DO I need to download the course materials or do I have lifetime access?
 Q?: Can you donwload the jupyter notebook files?
@@ -1104,23 +1109,23 @@ We use the data to identify hwo customers or things are similar to each other.
 Clustering is a very popular method to do that described above, but it is an UNsupervised method. These are partitioned to mutually exclusive groups.
 
 What is clustering?
-Means finding clusters in a dataset, unsupervised.
-It is a group of objects that are similar to other objects in the cluster, and dissimilar toi data points in other clusters.
+It means finding clusters in a dataset, unsupervised.
+It is a group of objects that are similar to other objects in the cluster, and dissimilar to data points in other clusters.
 
 What is different between clustering and classification (besides supervised and  unsupervised).
-1. We use predefined labels for the yhats- the dependent variables. Each data instance belongs  to a particualr class.
+1. We use predefined labels for the yhats- the dependent variables. Each data instance belongs to a particular class.
 2. Unsupervised and unlabelled. We start to see that classes might exist.
 
 Clustering applications:
-- Retail/ Marketing: identify buying pattrerns for particular groups. Or recommending
-- Banking: cluseters of normal trends versus fraud.
+- Retail/ Marketing: identify buying patterns for particular groups. Or recommending
+- Banking: clusters of normal trends versus fraud.
 - Insurance: fraud detection.
 - publication: auto-categorize, or tag news items (that are similar) #Todo check this out for news aggregation.
 - medicine: characterize patient behavior/ therapies
 - biology: groups genes with similar patterns
 
 Why clustering?
-- Exploraoty dataa analysis
+- Exploratory data analysis
 - Summary generation: reducing the scale
 - outlier detection: especially for fraud detection or noise removal
 - Finding duplicates:
@@ -1143,7 +1148,8 @@ Density-based Clustering:
 k-Means Clustering
 ------------------
 What is it?
-A type of partitioning clustering. K-Means divides the data into non-overlapping subsets (clusters) without any cluster-internal structure
+A type of partitioning clustering. K-Means divides the data into non-overlapping subsets (clusters) without any cluster-internal structure.
+Q?: No "cluster-internal structure". Does this mean it has one big cluster only, no subsets within that?
 I.e. unsupervised.
 Examples within a cluster are very similar
 Examples across different clusters are very different
@@ -1183,7 +1189,7 @@ In the first example on the video, our model is poor and will result in a lot of
 because they were chosen randomly.
 Here, error is the total distance of each point from its centroid, SSE or Sum of Squared differences:
 
-SSE = Sigma(i=1, n)::(xi - Cj)**2 # THis doenst seem right. where is the j subscript coming from?
+SSE = Sigma(i=1, n)::(xi - Cj)**2 # This doesn't seem right. where is the j subscript coming from?
 
 So, how can we turn this into better clusters with less error?
 In this next step we will update each data point to be the mean for data points in its cluster.
@@ -1192,6 +1198,8 @@ So we move the centroids. However, each time we do this we need to recalculate t
 k-Means is an iterative algorithm. This means we have to repeat steps until the algorithm converges.
 This results in clusters with the least amount of error, i.e. the most dense clusters available.
 However, it may converge to a local optimum, not necessarily the global optimum.
+# TODO: Exlplain this better:
+Basically, it is a relative optimum, not the objective.
 So, it is highly contingent on the centroids we choose in the first place. The initial clusters really set the stage.
 
 Q?: So how do we determine the best cluster? There must be a mathematical way to do so.
@@ -1249,25 +1257,342 @@ Each observation starts in it's own cluster, and clusters are grouped together a
 More popular among Data Scientists.
 
 Rows and columns are merged as clusters are merged. We find the smallest distance, and then create a cluster from these.
-From here there are a number of distance methods to use, but we can use Euclidean and move the point of the the merged clusters to the center of that merged cluster. We then use the center (which acts a mean, really) to calculate our next cluster.
+From here there are a number of distance methods to use, but we can u
+
+
+
+
+se Euclidean and move the point of the the merged clusters to the center of that merged cluster. We then use the center (which acts a mean, really) to calculate our next cluster.
 We complete this until all clusters have been merged and the tree is completed.
 
 Hierarchical clustering is typically shown as a dendrogram.
 Each merge is shown by a horizontal line. The y cooridinate of this horizontal represents the similarity of these two merged clusters to each other.
 We do not need to specify the number of clusters, but at some point we may need to partition disjoint clusters. This means the hierarchy needs to be cut at some point:
-Ex. Although we join up all clusters in the end, some clusters are actually very far apart and we may like to keeo only things that are relatively similar
+Ex. Although we join up all clusters in the end, some clusters are actually very far apart and we may like to keep only things that are relatively similar
 considered as a grouping. I.e. we may still want to see the differences between some merged groups.
 
 # Check for more content here.
 
-
-
-
-
-
-
-
 -------------------------------
 More on Hierarchical Clustering
 -------------------------------
+
+Agglomerative algorithm. remember, this is a bottom up approach.
+
+1. Create n clusters, one for each data point. Each Point acts as a cluster.
+2. Compute the Proximity Matrix. this is an n x n table.
+3. Repeat (iteratively):
+    i. Merge the closest clusters
+    ii. Update the proximity matrix
+4. Iterate until only a single cluster remains.
+
+We need to measure the distances between the clusters.
+
+Similarity/ Distance:
+Calculate the proximity distance with, for instance, Euclidean distance.
+
+How can we calculate the distance between clusters when there are multiple data points within each cluster?
+
+This depends on domain knowledge, n-dimensions, data type.
+
+Distance between Clusters:
+Singe-Linkage Clustering: Minimum distance between clusters
+Ex. So with clusters 1 and 2, the points from each that are closest together, where a is in 1, and b is in 2.
+
+Complete-Linkage Clustering: Maximum distance between clusters.
+This is the opposite of the above where the two points that are furthest from each other, from the two clusters, are used to find distance.
+
+Average-Linkage Clustering: Average distance between clusters
+This is the average of one point from every other point in the other cluster.
+Ex. for i in pointsA:
+        for p in pointsB:
+            distance: i from p.
+            store that, then divide by len(pointsB)
+
+Centroid Linkage Clustering: Distance between cluster centroids
+Average of the feature sets with the clusters, ie the average center point and then calculate distance based on these.
+
+Advantages vs. disadvantages of Hierarchical clustering:
+Adv:
+Doesn't require number of clusters to be specified.
+Easy to implement
+Produces a dendrogram, which helps with understanding the data.
+
+Cons:
+Can never undo any previous steps throughout the algorithm.
+Generally has long runtimes.
+Sometimes difficult to identify the number of clusters by the dendrogram. 
+
+Hierarchical vs k-means
+KMEANS
+1. Much more efficient
+2. Requires the number of clusters to be specified
+3. Gives only one partitioning of the data based on the predefined number of clusters.
+    - Once partitioned, that's it - no sub partitions.
+4. Potentially returns different clusters each time it it run due to random initialization of centroids.
+
+Hierarchical Clustering:
+1. Can be slow for large datasets
+2. Does not require the number of clusters
+3. Gives more than one partitioning depending on the resolution
+    - This is how each cluster can have multiple other clusters.
+4. Always generate the same clusters
+
+
+------------------------
+Density-based Clustering
+------------------------
+DBSCAN Clustering
+
+Appropriate to use when examining spatial data.
+Arbitrary shaped clusters are difficult to use with what we have learned up to this point.
+Additionally, kmeans has no real notion of outliers. It assigns all poitns to a cluster even if they do not belong in any.
+Density based clustering locates regions of high denisty, adn separates outliers.
+
+Density is defined as the number of points within a specified radius. DBSCAN is poplar.
+
+It is particularly useful for calss identification on a spatial context. It does not get affected by noise.
+
+What is DBSCAN?
+Density-Based Spatial Clustering of Application with Noise
+    - Is one of the most common clustering algorithms
+    - Works based on density of objects.
+        - Assumes that if a point is in the cluster, it must be near a lot of other points within that cluster.
+
+R (Radius of neighborhood)
+    - Radius (R) that if includes enough number of points within, we call it a dense area
+
+M (Min number of neighbors)
+    - The minimum number of data points we want in a neighborhood to define a cluster.
+
+How DBSCAN works (3'13")
+We use R and M to determine the cluster. R is the length of the radius, and M the number of points that fall within the cluster created by that radius.
+
+For DBSCAN, we have to determine the type of points. These can be either:
+-core
+-border
+-outlier
+
+We need to go through each point and find its type first. This is the whole idea of DBScan.
+Then we group clusters based on types.
+We choose a point randomly. We first check to see if it is a core point. (3'50")
+
+A data point is a core point if within Neighborhood R (our radius) of the point,
+ there are at least M (Min number of points) of points.
+ Q?: Including the point itself?
+ A!: Yes, including the point itself.
+
+What happens if it's not a core point?
+A data point is a Border point if:
+A. it's neighborhood contains less than M data points, or
+B. it is reachable from some core point.
+
+We continue on, and any point that is with the neighborhood may be a border point. Core points can be next to each other and within the same neighborhood.
+That is, core points are not creating mutually exclusive clusters.
+
+NOTE: The last circle in 5'30" should not be considered a core point.
+
+There are some things that are not core points or border points. These are known as outliers.
+Outliers are defined as not being a core point and also not being reachable from a core point.
+
+NOTE: the last cluster at 5'54" shouldn't be considered a core point as well.
+
+The next step is connect core points that are neighbors and put them in the same cluster.
+Thus, a cluster is defined as at least one core point plus all reachable (in the neighborhood of the other/ connected)
+ core points, plus all of their borders.
+It simply shapes all of the clusters and finds outliers as well.
+
+Advantages of DBSCAN (6'26")
+1. Arbitrarily shaped clusters
+2. Robust to outliers (I.e. understands noise)
+3. Does not require specification of the number of clusters (Such as K-means).
+
+
+###############################################
+Week Five: Content-based recommendation systems
+###############################################
+
+----------------------------
+Intro to Recommender Systems
+----------------------------
+
+Recommender systems capture the pattern of peoples' behavior and use it to predict what else they might want or like.
+People tend to like similar things, or patterns to things. Ppl also tend to have similar tastes to those close in their lives.
+
+Applications:
+What to buy?
+    - E-commerce, books, movies, beer, shoes
+    Everything on Netflix's system is driven by this.
+    - Where to eat? What job to apply to?
+    - Personalize your experience on the web.
+
+Advantages of recommender systems
+    - Broader exposure to things you might not have seen or experienced otherwise.
+    - Possibility of continual usage or purchase of products
+    - Provides better experience
+
+Two types of recommender systems:
+Content-Based:
+    - "Show me more of the same of what I've liked before"
+    - Attempts to make recommendations based on the attributes/ features of the content and determining the similarity between things.
+
+Collaborative Filtering:
+    - "Tell me what's popular among my neighbors. I also might like it"
+    - finds similar groups of users, and provide recommendation based on their taste.
+    - attempts to figure out what's popular among the neighbors and recommend it
+
+Hybrid systems also exist (i.e. combine the two above?? You would have to weight the one over the other).
+TODO: Define neighbor.
+
+Implementing recommender systems
+Memory-based:
+    - Uses the entire user-item dataset to generate a recommendation.
+    - Uses statistical techniques to approximate users or items (e.g. Pearson Correlation, Cosine Similarity, Euclidean Distance)
+
+Model-based:
+    - Develops a model of users in an attempt to learn their preferences.
+    - Models can be created by using Machine Learning techniques like regression, clustering, classification, etc.
+
+
+---------------------------------
+Content-Based Recommender Systems
+---------------------------------
+
+Recommends based on user's taste. Shaped based on user ratings, like number of times clicked on or likes.
+Based on the similarity between those items. Category, tag, genre, etc.
+
+For example, if two movies have a similar genre, it will potentially recommend a third based on the same genre ratings.
+
+# recommendation based just on features of the movies seems lacking. The movie may also just be good or bad (whatever that might mean). Subjectivity versus objectivity* (where objectivity in aesthetics or other things like this must come from cultural norms. The zeitgeist. But ultimately, there is no objectivity- some over-arching truth.)
+
+We want to predict which movies the user would like, or rather, what the users rating of similar movies might be.
+
+To achieve this, we have to build the user profile.
+Weighing the genres:
+First create a vector for the movies and rating the user has already watched. We call this "input user ratings"
+
+The, we use the one-hot encoding method, which essentially give a 1 to the features that all movies have in common, and a zero to those that are outliers.
+For example:
+if movie A: has features 1,3, and 4. And movie B has 2, 3, and 4, 3 and 4 would get a 1, and 1 and 2 would get a zero.
+Basically, this method is attempting to find the commonality between the movie genres (the one-hot method), and then we will use the user ratings vector to weight these things.
+
+We multiply the matrices to get the weighted feature set of the movies. In this example, this is also called the weighted genre matrix.
+We then sum the genre totals (3'04")
+We aggregate the weighted genres and then normalize them to find the user profile.
+
+TODO: Normalization. Is this to but various weights into a 100% ratio? The raw numbers then become a total and thus a percentage of the whole. e.g. 2,4,4 becomes 20, 40, and 40%?
+
+Candidate movies for recommendation.
+We have now calculated the genre weights. We now encode potential movies with the one hot method (i.e. 1's for same genres).
+Now we're in the position to figure out which movies are most recommended to the user.
+
+To do this, we multiply the User profile matrix (the weighted stuff from above) against the potential movie matrix (the one-hot only 1's and 0's).
+
+This results in the weighted movies matrix. If we then aggregate, we get the users possible interset in these movies. (I.e. each genre gets rating. Each movie may have multiple genres. We total the genre ratings for the movie to get the potential interest.
+
+TODO: What is the psychology of genres though? Do we think in genres? Are they a good indicator?
+
+This becomes our recommendation list.
+
+This method is really efficent, but in some cases it doesn't work. (4'40")
+Genres outside of the users profile will not work though. The limitation of this method chooses things that are only within the users profile, so if the user has only checked out comedy, drama may not be available.
+
+-----------------------
+Collaborative Filtering
+-----------------------
+Q?: How does this differ from Content-based, considering there is a method below that is item-based?
+
+Collaborative filtering is based on the fact that relationships exist between products and peoples interests.
+
+It has basically two approaches:
+1. User-based collaborative filtering:
+    - Based on users' neighborhood
+2. Item-based collaborative filtering
+    - Based on items' similarity
+
+Can only predict scoring of an item if there are other users who have rated it.
+
+User-Based
+Looks for users that are similar, ie. that share thea ctive users' rating patterns. History, preferences, purchased, etc.
+This then takes the rating of the neighbors to determine whether or not to recommend a movie to the active user- one in which she has not previously watched.
+
+
+User ratings matrix (1'50")
+We take 4 users (including the active) and list their ratings for 5 items( movies, in this case). We try to determine the rating of the user for the two items she has not rated yet.
+The first step is to determine how similar the user is to the other users. Distance or similarity methods may be used.
+
+Creating hte weighted ratings matrix
+The next step is to create a weighted ratings matrix. We have already calculated the similarity above.
+We use this to calculate the possible opinion of the active user about hte two target items. This is done by multiplying the similarity rates (from above, 0.0 - 1.0) to the user ratings.
+Q?: The other ppls ratings? A!: Yes.
+
+This shows the opinions of the other users as seen through the similarity of our active user. In fact, the similar the other user is to our active user, the higher their Similarity Index is, and thus more weight is given to these users.
+
+We can now generate the recommendation matrix by aggregating the ratings calculated. However, we need to normalize because not every neighbot has voted on the item in question. We do this by dividing the aggregrate of the opinionated ratings by the sum (aggregrate) of the similarity index of the appropriate users.
+
+The result is the potential rating that our user will give to these items based on her similarity to other users.
+
+Collaborative filtering Differences (4'30")
+Between user and item-based filtering.
+
+User-based:
+Based on users of the same neighborhood.
+eg. Two users like the same thing. This makes them neighbors. We can then recommend a new thing to a user because the other user liked it.
+
+Item-based:
+Similar items build neighborhoods on the behavior of users. Please note though that it's not based on the contents of the items (Which refers to Content-based recommendation).
+
+TODO: Get a better explanation. The items are considered neighbors and similar because users have rated them.
+
+Challenges of collaborative filtering
+This method is a very effective system, but there are some challenges.
+
+Data Sparsity:
+    - Users in general rate only a limited number of items (out of a massive potential, in some cases)
+    As mentioned, collaborative filtering  only predict scoring of an item if there are other users who have rated it.
+TODO: Build a system that allows for human psychology and neighborhoods, but also get around the problem above by usin a content-based system, so that unknown movies/ items might get some exposure.
+# Also, is it fair to say that neighborhoods are "human psychology"? They all deal with human psychology and our evaluating things.
+
+Cold Start:
+    - Difficulty in recommendation to new users or new items
+    (Again, content-based may help).
+    - New users do not have a profile, so we do not know the users neighborhood to recommend from.
+    - New items may not have received ratings as well.
+
+Scalability:
+    - Increase in number of users or items.
+    - The performance will drop due to the increase in neighbors, for example, and the burden this now puts on the algorithm.
+
+There are hybrid approaches, but these are out of scope for the course. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
