@@ -14,8 +14,11 @@ df.hist(column='income', bins=50)
 df.columns # SHows the headers
 
 To use scikit-learn library, we have to convert the Pandas data frame to a Numpy array:
+Q?: Is this done by taking the dataframe and passing the list of values to it?
+X = df[[col1, col2, col3,...]]
+y = df['column containing the classifications']
 
-# Wxplain this better:
+# Explain this better:
 Data Standardization give data zero mean and unit variance, it is good practice, especially for algorithms such as KNN which is based on distance of cases:
 
 # Train/ Test split
@@ -26,7 +29,7 @@ print ('Test set:', X_test.shape,  y_test.shape)
 
 
 from sklearn.neighbors import KNeighborsClassifier
-# Start with =4 for now
+# Start with k=4 for now
 >>>
 k = 4
 #Train Model and Predict
@@ -53,7 +56,7 @@ Ks = 10 # Will be for ks 1 thru 9.
 # mean_acc = np.zeros((Ks-1))  ## Why does this need to be a np array?
 mean_acc = []
 std_acc = np.zeros((Ks-1))
-ConfustionMx = [];
+ConfusionMx = [];
 for n in range(1,Ks):
 
     #Train Model and Predict
@@ -72,6 +75,72 @@ mean_acc
 >>>
 np.std() == standard deviation.
 np.zeros(n) : an array of length n, with every element populated by 0
+
+
+
+#######
+For final project
+#######
+
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+from sklearn import preprocessing # For normalizing the data below.
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+
+df = pd.read_csv('filename as string') # import the data as Pandas dataframe
+
+# Is there a simpler way to convert to Numpy array?
+X = df[[cola, colb, colc, ...]].values # for the X values. We can get the names of these things with df.columns
+# X2 = df[df.columns.drop('custcat')].values  - that's a better way to create the x values.
+
+# Also get the y
+y = df['custcat'].values  # Why is this not in another list?
+
+# Processing to normalize.
+X = preprocessing.StandardScaler().fit(X).transform(X.astype(float))
+
+# We now train/ test split
+# TODO: Find the other methods for splitting up the data.
+
+X_train, X_test, y_train, y_test = train_test_split( X, y, test_size=0.2, random_state=4)
+
+# random_state is the sed used by the random number generator. Why 4 in this example, idk.
+# Would increasing or decreasing the training and testing data provide better results?
+# TODO: What did the chapter on training data say about htis?
+
+# Now train the model
+k = 6
+neighbors = KNeighborsClassifier(n_neighbors = k) # Create the model with the number of k's
+neighbors.fit(X_train, y_train) # train the model with the fit method.
+# use this to predict
+y_hat = neighbors.predict(X_test) # get a prediction using the test set.
+y_hat[:5]
+
+# Now check for accuracy, using both the training and testing datasets
+train_yhat = neighbors.predict(X_train)
+print('The training accuracy: {}'.format(metrics.accuracy_score(y_train, neighbors.predict(X_train))))
+print('The testing accuracy: {}'.format(metrics.accuracy_score(y_test, y_hat)))
+
+# Simply put:
+metrics.accuracy_score(y_actual, y_hat)
+
+# So, iterate over a number of K's until a decent one is found. The goal is to keep us from over-generalizing though.
+# Where is that sweet spot? Can we use some of the methods from elsewhere?
+
+full_score = []
+for i in range(min, max):
+    neigh = knearestneighbor(k).fit(xtrain, ytrain)
+    yhat = neigh.predict(x_test)
+    # get accuracy and store
+    score = metrics.accuracy_score(y_test, y_hat) # Also, this uses Jacaard
+    full_score.append(score)
+
+
+
+
 
 
 

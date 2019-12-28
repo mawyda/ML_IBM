@@ -677,7 +677,7 @@ Classification is a supervised approach.
 Categorizes some unknown items into a discrete set of categories or "classes".
 The target attribute is a categorical value.
 
-Classification determines the class label for an unlaeled test case.
+Classification determines the class label for an unlabeled test case.
 
 For example, who will end up defaulting on a loan?
 
@@ -718,7 +718,7 @@ Determining the class using the KNN:
 Can we predict the class of an unknown by looking at it nearest neighbor? We, we can. But how accurate is our prediction? We could be wrong, and maybe it makes sense to do a majority vote over the K nearest neighbors.
 
 What is K-Nearest Neighbor (KNN)? (3'11")
-Is a classification algorithm that takes a number (K) of labeled points and uses it label (ie. make predictions) on other nearby points.
+Is a classification algorithm that takes a number (K) of labeled points and uses it to label (ie. make predictions) on other nearby points.
 
 - A method for classifying cases based on their similarity to other cases.
 - Cases that are near each other are said to be "neighbors"
@@ -731,9 +731,9 @@ The K-Nearest Neighbors algorithm (4'06")
 1. Pick a K value
 2. Calculate the distance of unknown cases from all cases.
 3. Select the K-observations in the training data that are "nearest" to the unknown data point.
-4. Predict the response of the unknown data point using hte most popular response value from the K-nearest neighbors.
+4. Predict the response of the unknown data point using the most popular response value from the K-nearest neighbors.
 
-How to choose a good K? Ad how to do Number 2?
+How to choose a good K? And how to do Number 2?
 
 Dis(x1, x2) = sqrt(Sigma(i=0, n)(x1_i - x2_i)**2
 
@@ -989,7 +989,7 @@ This is the error for only state in all of the training set. Thus:
 4. Calculate the error for all customers. The total error is known as the models cost, and the total is calculated by the cost function. This is for hte entire model, comparing predicted and actual values.
 The lower the cost, the better the model is at estimating.
 5. Theta values were chosen randomly at first. Thus, change the theta to reduce the cost.
-# TODO: Undersatnd the theta calcualtion here.
+# TODO: Understand the theta calcualtion here.
 6. Go back to step 2, and start another iteration.
 Keep doing this until the cost is low enough.
 
@@ -1494,7 +1494,7 @@ TODO: What is the psychology of genres though? Do we think in genres? Are they a
 
 This becomes our recommendation list.
 
-This method is really efficent, but in some cases it doesn't work. (4'40")
+This method is really efficient, but in some cases it doesn't work. (4'40")
 Genres outside of the users profile will not work though. The limitation of this method chooses things that are only within the users profile, so if the user has only checked out comedy, drama may not be available.
 
 -----------------------
@@ -1567,8 +1567,13 @@ There are hybrid approaches, but these are out of scope for the course.
 
 
 
+--------------------
+Final Project Notes:
+--------------------
 
+Q?: How to choose the right K? When is the value enough? When thing level out?
 
+Q?: Are menkowski and Euclidean distances the same?
 
 
 
